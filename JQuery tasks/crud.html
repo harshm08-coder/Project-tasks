@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Working CRUD</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Student CRUD (No Database)</h2>
+
+    Name: <input type="text" id="name">
+    Email: <input type="text" id="email">
+
+    <button id="save">Save</button>
+    <button id="update">Update</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="data"></tbody>
+    </table>
+
+    <script>
+
+        $(document).ready(function () {
+
+            let edit_id = null;
+
+            
+            if (localStorage.getItem("students") == null) {
+                localStorage.setItem("students", JSON.stringify([]));
+            }
+
+            function loadData() {
+                let students = JSON.parse(localStorage.getItem("students"));
+                let html = "";
+
+                students.forEach(function (s) {
+                    html += `
+         <tr>
+        <td>${s.id}</td>
+        <td>${s.name}</td>
+        <td>${s.email}</td>
+        <td><button class="edit" data-id="${s.id}">Edit</button></td>
+        <td><button class="delete" data-id="${s.id}">Delete</button></td>
+        </tr>`;
+                       });
+
+                $("#data").html(html);
+            }
+
+            loadData();
+
+            $("#save").click(function () {
+
+                let name = $("#name").val();
+                let email = $("#email").val();
+
+                if (name == "" || email == "") {
+                    alert("Enter data");
+                    return;
+                }
+
+                let students = JSON.parse(localStorage.getItem("students"));
+
+                students.push({
+                    id: Date.now(),
+                    name: name,
+                    email: email
+                });
+
+                localStorage.setItem("students", JSON.stringify(students));
+
+                $("#name,#email").val('');
+                loadData();
+            });
+            
+            $(document).on("click", ".edit", function () {
+
+                let id = $(this).data("id");
+                let students = JSON.parse(localStorage.getItem("students"));
+                let s = students.find(x => x.id == id);
+
+                edit_id = id;
+                $("#name").val(s.name);
+                $("#email").val(s.email);
+            });
+
+            $("#update").click(function () {
+
+                if (edit_id == null) {
+                    alert("Select record first");
+                    return;
+                }
+
+                let students = JSON.parse(localStorage.getItem("students"));
+
+                students.forEach(function (s) {
+                    if (s.id == edit_id) {
+                        s.name = $("#name").val();
+                        s.email = $("#email").val();
+                    }
+                });
+
+                localStorage.setItem("students", JSON.stringify(students));
+
+                $("#name,#email").val('');
+                edit_id = null;
+                loadData();
+            });
+
+            $(document).on("click", ".delete", function () {
+
+                let id = $(this).data("id");
+                let students = JSON.parse(localStorage.getItem("students"));
+
+                students = students.filter(x => x.id != id);
+
+                localStorage.setItem("students", JSON.stringify(students));
+                loadData();
+            });
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    Enter start: <input type="number" id="start">
+    Enter end: <input type="number" id="end">
+   <button onclick="printPrime()">Print Prime Numbers</button>
+
+<h3 id="output"></h3>
+
+<script>
+function printPrime(){
+    let start = Number(document.getElementById("start").value);
+    let end = Number(document.getElementById("end").value);
+    if (start > end) {
+        [start, end] = [end, start];
+    }
+    if (end < 2) {
+        document.getElementById("output").innerText = "No prime numbers in the range";
+        return;
+    }
+    let isPrime = new Array(end + 1).fill(true);
+    isPrime[0] = isPrime[1] = false;
+    for (let i = 2; i * i <= end; i++) {
+        if (isPrime[i]) {
+            for (let j = i * i; j <= end; j += i) {
+                isPrime[j] = false;
+            }
+        }
+    }
+    let primes = "";
+    for (let i = Math.max(2, start); i <= end; i++) {
+        if (isPrime[i]) {
+            primes += i + " ";
+        }
+    }
+    document.getElementById("output").innerText = primes || "No prime numbers in the range";
+}
+</script>
+
+</body>
+</html>

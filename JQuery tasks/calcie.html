@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    Enter number 1:<input type="number" id="n1">
+    Enter number 2:<input type="number" id="n2">
+    <select id="operator">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <button onclick="calculation()" >=</button>
+    <button onclick="clearVal()">Clear</button>
+    <h2 id="result"></h2>
+
+    <script>
+        function getValues() {
+            let a = Number(document.getElementById("n1").value);
+            let b = Number(document.getElementById("n2").value);
+            return [a, b];
+        }
+
+        function add(a, b) {
+            return a + b;
+        }
+
+        function sub(a, b) {
+            return a - b;
+        }
+
+        function mul(a, b) {
+            return a * b;
+        }
+
+        function div(a, b) {
+            return b!==0 ? a/b : "Cannot divide by zero";
+        }
+
+        function calculation() {
+            let [a, b] = getValues();
+            let op = document.getElementById("operator").value;
+            let ans;
+
+            if (op === "+") ans = add(a, b);
+            else if (op === "-") ans = sub(a, b);
+            else if (op === "*") ans = mul(a, b);
+            else if (op === "/") ans = div(a, b);
+
+            document.getElementById("result").innerText = ans;
+        }
+        function clearVal() {
+            document.getElementById("n1").value = "";
+            document.getElementById("n2").value = "";
+            document.getElementById("result").innerText = "";
+        }
+    </script>
+</body>
+
+</html>

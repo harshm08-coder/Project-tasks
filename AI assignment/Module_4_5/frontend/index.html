@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Resume Analyzer</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+
+<h1>AI Resume Analyzer</h1>
+
+<div class="file-upload-wrapper">
+    <input type="file" id="resumeFile" accept=".pdf,.docx,.txt">
+    <button class="file-upload-btn" onclick="document.getElementById('resumeFile').click()">
+        Choose Resume
+    </button>
+    <span id="fileName">No file chosen</span>
+</div>
+
+<br>
+
+<button onclick="analyzeFile()">Analyze Resume</button>
+
+<br><br>
+
+<!-- ATS SCORE -->
+<div id="atsContainer" class="ats-container">
+    <h2>ATS Score</h2>
+    <div id="atsScore" class="ats-score">--</div>
+</div>
+
+<h3>Analysis Result</h3>
+<div id="result" class="result">
+AI analysis will appear here...
+</div>
+
+<script>
+
+async function analyzeFile() {
+
+    const fileInput = document.getElementById("resumeFile");
+    const resultDiv = document.getElementById("result");
+    const scoreDiv = document.getElementById("atsScore");
+
+    if (fileInput.files.length === 0) {
+        alert("Please upload a resume file first!");
+        return;
+    }
+
+    resultDiv.innerHTML = "Analyzing resume...";
+    scoreDiv.innerHTML = "...";
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    try {
+
+        const response = await fetch("http://127.0.0.1:8000/analyze-file", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        const text = data.analysis;
+
+        console.log(text); // debug output in browser console
+
+        /*
+        Improved ATS score detection
+        Handles formats like:
+        ATS Score: 78
+        ATS Score: 78/100
+        Score: 78
+        78/100
+        */
+
+        let score = null;
+
+        const match1 = text.match(/ATS\s*Score\s*[:\-]?\s*(\d+)/i);
+        const match2 = text.match(/(\d+)\s*\/\s*100/);
+        const match3 = text.match(/Score\s*[:\-]?\s*(\d+)/i);
+
+        if(match1) score = match1[1];
+        else if(match2) score = match2[1];
+        else if(match3) score = match3[1];
+
+        if(score){
+            scoreDiv.innerHTML = score + "/100";
+
+            // Optional color grading
+            if(score >= 80) scoreDiv.style.color = "#2ecc71";
+            else if(score >= 60) scoreDiv.style.color = "#f39c12";
+            else scoreDiv.style.color = "#e74c3c";
+
+        } else {
+
+            scoreDiv.innerHTML = "N/A";
+
+        }
+
+        resultDiv.innerHTML =
+            marked.parse(text) +
+            `<p class="response-time">Response Time: ${data.response_time ?? "N/A"} sec</p>`;
+
+    }
+    catch(error){
+
+        resultDiv.innerHTML = "Error connecting to backend.";
+        scoreDiv.innerHTML = "Error";
+
+        console.error(error);
+
+    }
+
+}       
+
+const fileInput = document.getElementById("resumeFile");
+const fileNameSpan = document.getElementById("fileName");
+
+fileInput.addEventListener("change", () => {
+
+    if (fileInput.files.length > 0) {
+
+        fileNameSpan.textContent = fileInput.files[0].name;
+
+    } else {
+
+        fileNameSpan.textContent = "No file chosen";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

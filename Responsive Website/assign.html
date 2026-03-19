@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub</title>
+    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+</head>
+
+<body>
+
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+                <h2 class="logo">
+                    <span class="material-symbols-outlined">
+                        stadia_controller
+                    </span> GAME
+                    <span class="lg">HUB</span>
+                </h2>
+            </div>
+
+            <div class="menu">
+                <ul>
+                    <li><a href="#form">HOME</a></li>
+                    <li><a href="#games">GAMES</a></li>
+                    <li><a href="#support">SUPPORT</a></li>
+                </ul>
+            </div>
+
+            <div class="search">
+                <input type="search" class="srch" id="searchInput" placeholder="Search Game">
+                <button class="btn" id="searchBtn">Search</button>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="content-text">
+                <h1>The World of <br><span>Gaming</span><br>is here</h1>
+                <p class="par">
+                    Buy your favorite game and get an amazing experience!!
+                </p>
+                <button class="btnn"><a href="#games">Buy Now</a></button>
+            </div>
+
+            <div class="form" id="form">
+                <h2>Login Here</h2>
+                <input type="email" id="loginEmail" name="email" placeholder="Enter your email here">
+                <div class="password-container">
+                    <input type="password" id="loginPassword" name="password" placeholder="Enter password here">
+                    <span class="material-symbols-outlined toggle-password" toggle="#loginPassword">
+                        visibility
+                    </span>
+                </div>
+                <button class="btnn" id="loginBtn">Login</button>
+
+                <p class="link">Don't have an account?<br>
+                    <a href="#register">Sign up</a>
+                </p>
+            </div>
+        </div>
+
+        <h2 class="section-heading" id="games">Games:</h2>
+        <div class="card-container">
+            <div class="card">
+                <img src="rdr2.jpg" alt="rdr2">
+                <div class="container">
+                    <h4><b>Red Dead Redemption 2</b></h4>
+                    <p>Price: $100.08</p><br>
+                    <button class="buy">Buy</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="rdr.jpg" alt="rdr">
+                <div class="container">
+                    <h4><b>Red Dead Redemption</b></h4>
+                    <p>Price: $49.99</p><br>
+                    <button class="buy">Buy</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="gtav.png" alt="gtav">
+                <div class="container">
+                    <h4><b>Grand Theft Auto : V Enhanced</b></h4>
+                    <p>Price: $39.99</p><br>
+                    <button class="buy">Buy</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="gtac.png" alt="gtac" height="272px">
+                <div class="container">
+                    <h4><b>Grand Theft Auto : Vice City</b></h4>
+                    <p>Price: $59.99</p><br>
+                    <button class="buy">Buy</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="gtas.jpg" alt="gtas">
+                <div class="container">
+                    <h4><b>Grand Theft Auto : San Andreas</b></h4>
+                    <p>Price: $40.99</p><br>
+                    <button class="buy">Buy</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form" id="register">
+            <h2>Register Here</h2>
+            <input type="text" id="registerName" name="name" placeholder="Enter your name">
+            <input type="email" id="registerEmail" name="email" placeholder="Enter your email">
+            <div class="password-container">
+                <input type="password" id="registerPassword" name="password" placeholder="Enter password">
+                <span class="material-symbols-outlined toggle-password" toggle="#registerPassword">
+                    visibility
+                </span>
+            </div>
+            <div class="password-container">
+                <input type="password" id="registerConfirmPassword" name="confirmPassword" placeholder="Confirm password">
+                <span class="material-symbols-outlined toggle-password" toggle="#registerConfirmPassword">
+                    visibility
+                </span>
+            </div>
+            <div id="passwordStrengthBar"><div id="strength"></div></div>
+            <button class="btnn" id="registerBtn">Sign Up</button>
+        </div>
+
+        <div id="support" class="support-section">
+            <h2>Support</h2>
+            <p>If you have issues, contact us at <b>support@gamehub.com</b></p>
+        </div>
+    </div>
+
+    <div id="cartSidebar" class="cart-sidebar">
+        <h3>Your Cart <span style="text-shadow:1px 1px 1px #000;">🛒</span></h3><br>
+        <table id="cartTable" border="1" style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Game</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cartItems">
+            </tbody>
+        </table>
+
+        <p id="cartTotal" style="margin-top: 10px; font-weight:bold;"></p>
+        <button id="emptyCart">Empty Cart</button>
+        <button id="closeCart">Close</button>
+    </div>
+
+    <script src="gamehub.js"></script>
+</body>
+</html>

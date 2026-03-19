@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>jQuery Practice</title>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<style>
+.box{width:100px;height:100px;background:red;margin:10px;display:inline-block}
+#box2{background:blue}
+</style>
+</head>
+
+<body>
+
+<h1>jQuery Tasks</h1>
+
+<!-- Calculator -->
+<h2>Calculator</h2>
+<input id="n1">
+<input id="n2">
+<button id="add">+</button>
+<button id="sub">-</button>
+<button id="mul">*</button>
+<button id="div">/</button>
+<button id="clear">Clear</button>
+<h3 id="calcResult"></h3>
+
+<!-- Prime -->
+<h2>Prime Check</h2>
+<input id="primeInput">
+<button id="primeBtn">Check</button>
+<p id="primeResult"></p>
+
+<!-- Like Dislike -->
+<h2>Like Dislike</h2>
+<button id="like">Like</button>
+<button id="dislike">Dislike</button>
+<h3 id="counter">0</h3>
+
+<!-- Array operations -->
+<h2>Array Operations</h2>
+<button id="arrayOps">Run</button>
+<pre id="arrayResult"></pre>
+
+<!-- Power -->
+<h2>Power</h2>
+<input id="base">
+<input id="exp">
+<button id="powerBtn">Power</button>
+<p id="powerResult"></p>
+
+<!-- Table -->
+<h2>Table</h2>
+<input id="tableNum">
+<button id="tableBtn">Generate</button>
+<pre id="tableResult"></pre>
+
+<!-- Div Manipulation -->
+<h2>Div Manipulation</h2>
+<div id="box1" class="box"></div>
+<div id="box2" class="box"></div>
+<br>
+<button id="move">Move</button>
+<button id="swap">Swap</button>
+
+<!-- String Reverse -->
+<h2>Reverse Each Word</h2>
+<input id="text">
+<button id="reverseBtn">Reverse</button>
+<p id="reverseResult"></p>
+
+<!-- Factorial -->
+<h2>Factorial</h2>
+<input id="fact">
+<button id="factBtn">Find</button>
+<p id="factResult"></p>
+
+</body>
+
+<script>
+$(document).ready(function(){
+
+/* Calculator */
+function getVals(){
+    return [Number($("#n1").val()), Number($("#n2").val())];
+}
+
+$("#add").click(()=>$("#calcResult").text(getVals()[0]+getVals()[1]));
+$("#sub").click(()=>$("#calcResult").text(getVals()[0]-getVals()[1]));
+$("#mul").click(()=>$("#calcResult").text(getVals()[0]*getVals()[1]));
+$("#div").click(()=>$("#calcResult").text(getVals()[1]!=0?getVals()[0]/getVals()[1]:"Cannot divide by zero"));
+$("#clear").click(()=>{$("#n1,#n2,#calcResult").val("").text("");});
+
+/* Prime */
+$("#primeBtn").click(function(){
+    let n=Number($("#primeInput").val());
+    let prime=n>1;
+    for(let i=2;i<=Math.sqrt(n);i++) if(n%i==0) prime=false;
+    $("#primeResult").text(prime?"Prime":"Not Prime");
+});
+
+/* Like Dislike */
+let count=0;
+$("#like").click(()=>$("#counter").text(++count));
+$("#dislike").click(()=>$("#counter").text(--count));
+
+/* Array operations */
+$("#arrayOps").click(function(){
+    let arr=[1,2,3,4];
+    let sum=0,mul=1,neg=0,odd=0,even=0;
+    arr.forEach(n=>{
+        sum+=n; mul*=n;
+        if(n<0)neg++;
+        n%2?odd++:even++;
+    });
+    let avg=sum/arr.length;
+    $("#arrayResult").text(`Sum=${sum} Mul=${mul} Avg=${avg} Odd=${odd} Even=${even}`);
+});
+
+/* Power */
+$("#powerBtn").click(function(){
+    let a=$("#base").val(), b=$("#exp").val(),res=1;
+    for(let i=0;i<b;i++) res*=a;
+    $("#powerResult").text(res);
+});
+
+/* Table */
+$("#tableBtn").click(function(){
+    let n=$("#tableNum").val(),out="";
+    for(let i=1;i<=10;i++) out+=`${n} x ${i} = ${n*i}\n`;
+    $("#tableResult").text(out);
+});
+
+/* Move Div */
+$("#move").click(function(){
+    $("#box1").css({position:"relative",left:"200px",background:"green"});
+});
+
+/* Swap Div */
+$("#swap").click(function(){
+    $("#box1").before($("#box2"));
+});
+
+/* Reverse Words */
+$("#reverseBtn").click(function(){
+    let text=$("#text").val();
+    let res=text.split(" ").map(w=>w.split("").reverse().join("")).join(" ");
+    $("#reverseResult").text(res);
+});
+
+/* Factorial */
+$("#factBtn").click(function(){
+    let n=$("#fact").val(),f=1;
+    for(let i=1;i<=n;i++) f*=i;
+    $("#factResult").text(f);
+});
+
+/* Callback Example */
+function greet(name,callback){
+    console.log("Hello "+name);
+    callback();
+}
+greet("User",()=>console.log("Callback executed"));
+
+/* setTimeout */
+setTimeout(()=>console.log("Executed after 2 seconds"),2000);
+
+/* Merge Sorted Arrays */
+function merge(a,b){
+    let i=0,j=0,res=[];
+    while(i<a.length&&j<b.length)
+        res.push(a[i]<b[j]?a[i++]:b[j++]);
+    console.log(res.concat(a.slice(i)).concat(b.slice(j)));
+}
+merge([1,3,5],[2,4,6]);
+
+});
+</script>
+</html>

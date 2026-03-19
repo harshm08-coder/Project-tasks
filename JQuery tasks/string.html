@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Same Length Strings</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+<h3>Enter 5 Strings:</h3>
+
+<input type="text" class="txt"><br><br>
+<input type="text" class="txt"><br><br>
+<input type="text" class="txt"><br><br>
+<input type="text" class="txt"><br><br>
+<input type="text" class="txt"><br><br>
+
+<button id="btn">Check</button>
+
+<p id="ans"></p>
+
+<script>
+$(document).ready(function(){
+
+    $("#btn").click(function(){
+
+        var a = [];
+
+        $(".txt").each(function(){
+            a.push($(this).val());
+        });
+
+        var result = "";
+        var match = false;
+
+        for(var i=0;i<5;i++){
+            for(var j=i+1;j<5;j++){
+
+                if(a[i].length == a[j].length && a[i]!=""){
+                    result += a[i] + " , " + a[j] + "<br>";
+                    match = true;
+                }
+
+            }
+        }
+
+        if(match)
+            $("#ans").html(result);
+        else
+            $("#ans").html("No matching length");
+
+    });
+});
+</script>
+
+</body>
+</html>
+

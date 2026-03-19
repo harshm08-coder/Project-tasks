@@ -1,0 +1,16 @@
+.env
+# Environment variables (VERY IMPORTANT)
+.env
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# OS files
+.DS_Store
+
+# Old insecure files
+api_key.txt
